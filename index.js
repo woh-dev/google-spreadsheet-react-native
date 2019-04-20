@@ -1,7 +1,6 @@
 var async = require("async");
 var request = require("request");
 var xml2js = require("xml2js");
-var http = require("http");
 var querystring = require("querystring");
 var _ = require('lodash');
 var GoogleAuth = require("google-auth-library");
@@ -150,7 +149,7 @@ var GoogleSpreadsheet = function( ss_key, auth_id, options ){
             return cb( new Error("Invalid authorization key."));
           } else if ( response.statusCode >= 400 ) {
             var message = _.isObject(body) ? JSON.stringify(body) : body.replace(/&quot;/g, '"');
-            return cb( new Error("HTTP error "+response.statusCode+" ("+http.STATUS_CODES[response.statusCode])+") - "+message);
+            return cb( new Error("HTTP error "+response.statusCode+message));
           } else if ( response.statusCode === 200 && response.headers['content-type'].indexOf('text/html') >= 0 ) {
             return cb( new Error("Sheet is private. Use authentication or make public. (see https://github.com/theoephraim/node-google-spreadsheet#a-note-on-authentication for details)"));
           }
